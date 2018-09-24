@@ -1,11 +1,49 @@
 $(document).ready(function () {
 
+    //Game Questions
+    var questionList = [
+        question = {
+
+            //Question
+            questionText: "Question Test 1",
+
+            //Answer Choices
+            answerChoices: ["1", "2", "3", "4"],
+
+            //Correct Answer
+            correct: 1
+        },
+
+        question = {
+
+            //Question
+            questionText: "Question Test 2",
+
+            //Answer Choices
+            answerChoices: ["1", "2", "3", "4"],
+
+            //Correct Answer
+            correct: 1
+        },
+
+        question = {
+
+            //Question
+            questionText: "Question Test 3",
+
+            //Answer Choices
+            answerChoices: ["1", "2", "3", "4"],
+
+            //Correct Answer
+            correct: 1
+        }
+    ]
+
     var questionNumber
-    var userChoice
-    var numberCorrect
-    var numberIncorrect
-    var numberUnanswered
     var playerGuessed
+    var userPick
+    var interval = 0
+    var timeRemaining = 5
 
     //Start game
     $("#start-button").show()
@@ -60,16 +98,24 @@ $(document).ready(function () {
             $("#question-page").append(userChoices)
         }
 
+        //Start timer
+        timerStart()
+
         //Player clicks on answer from list of choices
         $(".playerChoices").click(function () {
             userPick = $(this).data("value")
             playerGuessed = true
             nextAnswer()
         })
+
+        if (timeRemaining === 0) {
+            nextAnswer()
+        }
     }
 
     //Loads answer page after player makes choice or time runs out
     function nextAnswer() {
+        $("#countdown").empty()
         $("#question-number").empty()
         $("#question").empty()
         $(".playerChoices").empty()
@@ -80,12 +126,14 @@ $(document).ready(function () {
             $("#answer-check-message").empty()
             $("#answer-page").show()
             correct++
+
             //Displays player was incorrect and correct answer
         } else if (userPick !== questionList[questionNumber].correct && playerGuessed === true) {
             $("#answer-check").html("Incorrect!")
             $("#answer-check-message").html("The correct answer was: " + questionList[questionNumber].correct)
             $("#answer-page").show()
             incorrect++
+
             //Displays time ran out and correct answer
         } else {
             $("#answer-check").html("Too slow! Out of time!")
@@ -94,17 +142,23 @@ $(document).ready(function () {
             timeouts++
         }
 
+        //Increase to next question number
         questionNumber++
-        console.log(questionNumber)
 
+        //Check if any remaining questions
+        //Display game over page if no more questions
         if (questionNumber >= questionList.length) {
             gameOver()
+
+            //Display next question if there are more questions in list
         } else {
             nextQuestion()
         }
     }
 
+    //Display the game over page with game statistics
     function gameOver() {
+
         //Hide answer page
         $("#answer-page").hide()
 
@@ -121,36 +175,42 @@ $(document).ready(function () {
     }
 
     newGame()
-    //Game Questions
-    var questionList = [
-        question = {
-            //Question
-            questionText: "Question Test 1",
-            //Answer Choices
-            answerChoices: ["1", "2", "3", "4"],
-            //Correct Answer
-            correct: 1
-        },
 
-        question = {
-            //Question
-            questionText: "Question Test 2",
-            //Answer Choices
-            answerChoices: ["1", "2", "3", "4"],
-            //Correct Answer
-            correct: 1
-        },
+    //Countdown Timer
+    //Begins the countdown timer
+    function timerStart() {
 
-        question = {
-            //Question
-            questionText: "Question Test 3",
-            //Answer Choices
-            answerChoices: ["1", "2", "3", "4"],
-            //Correct Answer
-            correct: 1
+        //Prevents multiple instances of decrementing from running
+        clearInterval(interval)
+        //Begin counting down by one second
+        interval = setInterval(decrement, 1000)
+    }
+
+    //Decreases remaining time, displays it, and checks if time is up
+    function decrement() {
+
+        //Display updated remaining time
+        $("#countdown").html("<h2>Time Remaining: " + timeRemaining + "</h2>")
+
+        //Decrease remaining time by one
+        timeRemaining--
+
+        //Check if time is up or player has guessed
+        if (timeRemaining === -1 || playerGuessed === true) {
+            timerStop()
         }
-    ]
+    }
 
-    //Make Timer
+    function timerStop() {
 
-})
+        //Prevents multiple instances of decrementing from running
+        clearInterval(interval)
+
+        //Reset remaining time to 30
+        timeRemaining = 5
+
+        //Reset
+        nextAnswer()
+    }
+}
+)

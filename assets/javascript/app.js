@@ -1,61 +1,153 @@
 $(document).ready(function () {
 
-    var currentQuestion
+    var questionNumber
     var userChoice
-    var correct
-    var incorrect
-    var unanswered
+    var numberCorrect
+    var numberIncorrect
+    var numberUnanswered
+    var playerGuessed
 
     //Start game
+    $("#start-button").show()
     function newGame() {
-        $("#start-button").show()
+
+        //Initial hiding of elements on page
         $("#question-page").hide()
         $("#answer-page").hide()
         $("#game-over-page").hide()
-        currentQuestion = 0
+
+    }
+
+    //Start New Game
+    $("#start-reset-button").click(function () {
+
+        //hide button
+        $(this).hide()
+
+        //hide
+        $("#game-over-page").hide()
+        $("#question-page").show()
+
+        //clear counter displays
+        $("#number-correct").empty()
+        $("#number-incorrect").empty()
+        $("#number-unanswered").empty()
+
+        //reset counters
+        questionNumber = 0
         correct = 0
         incorrect = 0
-        unanswered = 0
-    }
-    
-    $("#start-button").click(function() {
-        $(this).hide()
-        $("#question-page").show()
-        
+        timeouts = 0
+
+        //start with first question
+        nextQuestion()
     })
 
-    function nextQuestion () {
+    //Loads next question page
+    function nextQuestion() {
 
+        //Hide answer page
+        $("#answer-page").hide()
+
+        //Display question and possible choices
+        $("#question-number").html("Question " + (questionNumber + 1))
+        $("#question").html(questionList[questionNumber].questionText)
+        for (var i = 0; i < questionList[questionNumber].answerChoices.length; i++) {
+            var userChoices = $("<div>")
+            userChoices.addClass("playerChoices")
+            userChoices.attr("data-value", i)
+            userChoices.text(questionList[questionNumber].answerChoices[i])
+            $("#question-page").append(userChoices)
+        }
+
+        //Player clicks on answer from list of choices
+        $(".playerChoices").click(function () {
+            userPick = $(this).data("value")
+            playerGuessed = true
+            nextAnswer()
+        })
+    }
+
+    //Loads answer page after player makes choice or time runs out
+    function nextAnswer() {
+        $("#question-number").empty()
+        $("#question").empty()
+        $(".playerChoices").empty()
+
+        //Displays player was correct
+        if (userPick === questionList[questionNumber].correct && playerGuessed === true) {
+            $("#answer-check").html("Correct!")
+            $("#answer-check-message").empty()
+            $("#answer-page").show()
+            correct++
+            //Displays player was incorrect and correct answer
+        } else if (userPick !== questionList[questionNumber].correct && playerGuessed === true) {
+            $("#answer-check").html("Incorrect!")
+            $("#answer-check-message").html("The correct answer was: " + questionList[questionNumber].correct)
+            $("#answer-page").show()
+            incorrect++
+            //Displays time ran out and correct answer
+        } else {
+            $("#answer-check").html("Too slow! Out of time!")
+            $("#answer-check-message").html("The correct answer was: " + questionList[questionNumber].correct)
+            $("#answer-page").show()
+            timeouts++
+        }
+
+        questionNumber++
+        console.log(questionNumber)
+
+        if (questionNumber >= questionList.length) {
+            gameOver()
+        } else {
+            nextQuestion()
+        }
+    }
+
+    function gameOver() {
+        //Hide answer page
+        $("#answer-page").hide()
+
+        //Display game over page
+        $("#game-over-page").show()
+        $("#game-over-message").html("Thanks for playing!")
+        $("#number-correct").append("Correct: " + correct)
+        $("#number-incorrect").append("Incorrect: " + incorrect)
+        $("#number-unanswered").append("Unanswered: " + timeouts)
+
+        //change start button into a reset button
+        $("#start-reset-button").text("Try Again")
+        $("#start-reset-button").show()
     }
 
     newGame()
-    //Make Questions
+    //Game Questions
     var questionList = [
         question = {
             //Question
-            question: "Question",
+            questionText: "Question Test 1",
             //Answer Choices
             answerChoices: ["1", "2", "3", "4"],
             //Correct Answer
-            correct : answerChoices[i]
+            correct: 1
         },
 
         question = {
             //Question
-            question: "Question",
+            questionText: "Question Test 2",
             //Answer Choices
             answerChoices: ["1", "2", "3", "4"],
             //Correct Answer
-            correct : answerChoices[i]
+            correct: 1
         },
 
         question = {
             //Question
-            question: "Question",
+            questionText: "Question Test 3",
             //Answer Choices
             answerChoices: ["1", "2", "3", "4"],
             //Correct Answer
-            correct : answerChoices[i]
+            correct: 1
         }
     ]
 

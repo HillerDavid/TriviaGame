@@ -5,3 +5,12 @@
 #game-area {
     border: none;
 }
+
+.userPick {
+    font-size: x-large
+    
+}
+
+.userPick:hover {
+    color: red
+}

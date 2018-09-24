@@ -9,18 +9,50 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
-
+    <link rel="stylesheet" href="assets/css/style.css" type="text/css">
 </head>
 
 <body>
-    
 
+    <div class="container" id="main-content">
 
+        <div class="card" id="game-area">
+            <div class="card-body text-center">
+                <!-- Title Page -->
+                <div id="title-page">
+                    <h1 class="card-title">Trivia Game</h1>
+                    <button id="start-button">Start</button>
+                </div>
+                <!-- Question Page -->
+                <div id="question-page">
+                    <h1 class="card-title" id="question"></h1>
+                    <ul class="list-group list-group-flush"></ul>
+                </div>
+                <!-- Answer Page -->
+                <div id="answer-page">
+                    <h1 class="card-title" id="answer-check"></h1>
+                    <h3 class="card-text" id="answer-check-message"></h3>
+                </div>
+                <!-- Game Over Page-->
+                <div id="game-over-page">
+                    <h1 class="card-title" id="game-over"></h1>
+                    <h3 class="card-text" id="game-over-message"></h3>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" id="number-correct">Correct:</li>
+                        <li class="list-group-item" id="number-incorrect">Incorrect:</li>
+                        <li class="list-group-item" id="number-unanswered">Unanswered:</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
+    <script src="assets/javascript/app.js"></script>
 </body>
 
 </html>

@@ -1,49 +1,11 @@
 $(document).ready(function () {
 
-    //Game Questions
-    var questionList = [
-        question = {
-
-            //Question
-            questionText: "Question Test 1",
-
-            //Answer Choices
-            answerChoices: ["1", "2", "3", "4"],
-
-            //Correct Answer
-            correct: 1
-        },
-
-        question = {
-
-            //Question
-            questionText: "Question Test 2",
-
-            //Answer Choices
-            answerChoices: ["1", "2", "3", "4"],
-
-            //Correct Answer
-            correct: 1
-        },
-
-        question = {
-
-            //Question
-            questionText: "Question Test 3",
-
-            //Answer Choices
-            answerChoices: ["1", "2", "3", "4"],
-
-            //Correct Answer
-            correct: 1
-        }
-    ]
 
     var questionNumber
     var playerGuessed
     var userPick
-    var interval = 0
-    var timeRemaining = 5
+    var interval
+    var timeRemaining = 15
 
     //Start game
     $("#start-button").show()
@@ -84,6 +46,9 @@ $(document).ready(function () {
     //Loads next question page
     function nextQuestion() {
 
+        //Start timer
+        timerStart()
+
         //Hide answer page
         $("#answer-page").hide()
 
@@ -98,18 +63,15 @@ $(document).ready(function () {
             $("#question-page").append(userChoices)
         }
 
-        //Start timer
-        timerStart()
-
         //Player clicks on answer from list of choices
         $(".playerChoices").click(function () {
             userPick = $(this).data("value")
             playerGuessed = true
-            nextAnswer()
+            timerStop()
         })
 
-        if (timeRemaining === 0) {
-            nextAnswer()
+        if (timeRemaining === -1) {
+            timerStop()
         }
     }
 
@@ -119,6 +81,7 @@ $(document).ready(function () {
         $("#question-number").empty()
         $("#question").empty()
         $(".playerChoices").empty()
+
 
         //Displays player was correct
         if (userPick === questionList[questionNumber].correct && playerGuessed === true) {
@@ -130,7 +93,7 @@ $(document).ready(function () {
             //Displays player was incorrect and correct answer
         } else if (userPick !== questionList[questionNumber].correct && playerGuessed === true) {
             $("#answer-check").html("Incorrect!")
-            $("#answer-check-message").html("The correct answer was: " + questionList[questionNumber].correct)
+            $("#answer-check-message").html("The correct answer was: " + questionList[questionNumber].answerChoices[questionList[questionNumber].correct])
             $("#answer-page").show()
             incorrect++
 
@@ -142,17 +105,29 @@ $(document).ready(function () {
             timeouts++
         }
 
+        //Display gif relating to question
+        $("#image").html("<img src='assets/images/" + questionList[questionNumber].image + "' width='500px'>")
+
+        //Display answer page for 5 seconds
+        setTimeout(checkRemaining, 5000)
+
         //Increase to next question number
         questionNumber++
 
         //Check if any remaining questions
-        //Display game over page if no more questions
-        if (questionNumber >= questionList.length) {
-            gameOver()
+        function checkRemaining() {
 
-            //Display next question if there are more questions in list
-        } else {
-            nextQuestion()
+            //Display game over page if no more questions
+            if (questionNumber >= questionList.length) {
+                gameOver()
+
+                //Display next question if there are more questions in list
+            } else {
+
+                //Reset player guessed
+                playerGuessed = false
+                nextQuestion()
+            }
         }
     }
 
@@ -179,7 +154,8 @@ $(document).ready(function () {
     //Countdown Timer
     //Begins the countdown timer
     function timerStart() {
-
+        //Display initial countdown
+        $("#countdown").html("<h2>Time Remaining: " + timeRemaining + "</h2>")
         //Prevents multiple instances of decrementing from running
         clearInterval(interval)
         //Begin counting down by one second
@@ -189,14 +165,14 @@ $(document).ready(function () {
     //Decreases remaining time, displays it, and checks if time is up
     function decrement() {
 
-        //Display updated remaining time
-        $("#countdown").html("<h2>Time Remaining: " + timeRemaining + "</h2>")
-
         //Decrease remaining time by one
         timeRemaining--
 
+        //Display updated remaining time
+        $("#countdown").html("<h2>Time Remaining: " + timeRemaining + "</h2>")
+
         //Check if time is up or player has guessed
-        if (timeRemaining === -1 || playerGuessed === true) {
+        if (timeRemaining === -1) {
             timerStop()
         }
     }
@@ -207,10 +183,88 @@ $(document).ready(function () {
         clearInterval(interval)
 
         //Reset remaining time to 30
-        timeRemaining = 5
+        timeRemaining = 15
 
         //Reset
         nextAnswer()
     }
+    
+    //Game Questions
+    var questionList = [
+        question = {
+
+            //Question
+            questionText: "Dumbo is able to fly with the use of his large ____.",
+
+            //Answer Choices
+            answerChoices: ["Nose", "Ears", "Tail", "Feet"],
+
+            //Correct Answer
+            correct: 1,
+
+            //Related Image
+            image: "dumbo.gif"
+        },
+
+        question = {
+
+            //Question
+            questionText: "David Spade voiced this character in 'The Emperor's New Groove'.",
+
+            //Answer Choices
+            answerChoices: ["Yzma", "Kronk", "Kuzco", "Pacha"],
+
+            //Correct Answer
+            correct: 2,
+
+            //Related Image
+            image: "kuzco.gif"
+        },
+
+        question = {
+
+            //Question
+            questionText: "Which of the following people does Genie in 'Aladdin' impersonate?",
+
+            //Answer Choices
+            answerChoices: ["Rodney Dangerfield", "Bruce Willis", "Hugh Jackman", "Ben Stiller"],
+
+            //Correct Answer
+            correct: 0,
+
+            //Related Image
+            image: "genie.gif"
+        },
+
+        question = {
+
+            //Question
+            questionText: "What type of dance does Timon and Puumba perform to distract the hyenas in 'The Lion King'",
+
+            //Answer Choices
+            answerChoices: ["Souja Boy", "Waltz", "Electric Slide", "Hula"],
+
+            //Correct Answer
+            correct: 1,
+
+            //Related Image
+            image: "timon.gif"
+        },
+
+        question = {
+
+            //Question
+            questionText: "What is the name of Philip Sherman's neice that pesters the tank gang in 'Finding Nemo'?",
+
+            //Answer Choices
+            answerChoices: ["Dierdre", "Darla", "Daria", "Dory"],
+
+            //Correct Answer
+            correct: 1,
+
+            //Related Image
+            image: "darla.gif"
+        }
+    ]
 }
 )

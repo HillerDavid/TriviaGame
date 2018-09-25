@@ -1,9 +1,19 @@
+body {
+    background-image: url(../images/disney-background.jpg);
+    font-family: "WALTER__";
+}
+
 #main-content {
-    margin-top: 40px
+    margin-top: 40px;
+    color: gold;
 }
 
 #game-area {
     border: none;
+    background: rgb(0, 0, 0, 0.01);
+    text-shadow: 4px 4px 4px black;
+    text-transform: uppercase;
+    
 }
 
 .userPick {

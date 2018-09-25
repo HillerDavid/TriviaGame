@@ -224,7 +224,7 @@ $(document).ready(function () {
         question = {
 
             //Question
-            questionText: "Which of the following people does Genie in 'Aladdin' impersonate?",
+            questionText: "Which of the following celebrities does Genie in 'Aladdin' impersonate?",
 
             //Answer Choices
             answerChoices: ["Rodney Dangerfield", "Bruce Willis", "Hugh Jackman", "Ben Stiller"],
@@ -245,7 +245,7 @@ $(document).ready(function () {
             answerChoices: ["Souja Boy", "Waltz", "Electric Slide", "Hula"],
 
             //Correct Answer
-            correct: 1,
+            correct: 3,
 
             //Related Image
             image: "timon.gif"

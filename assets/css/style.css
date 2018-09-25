@@ -1,7 +1,7 @@
 body {
     background-image: url(../images/disney-background.jpg);
     background-repeat: no-repeat;
-    background-size: cover
+    background-size: cover;
 }
 
 #main-content {
@@ -12,7 +12,24 @@ body {
 
 #game-title {
     font-size: 70px;
-    color: yellow
+    color: yellow;
+}
+
+#start-reset-button {
+    margin-top: 150px;
+    border-radius: 50%;
+    font-size: 40px;
+    width: 200px;
+    height: 100px;
+    background-color: rgba(63, 133, 190, 0.425);
+    color: white;
+    -webkit-transition-duration: 0.75s;
+    transition-duration: 0.75s;
+}
+
+#start-reset-button:hover {
+    color: rgb(63, 97, 190);
+    background-color: gold;
 }
 
 #game-area, #game-over-page, .statistics {
@@ -22,17 +39,33 @@ body {
     text-transform: uppercase;
 }
 
+#question-number {
+    font-size: 60px;
+    color: yellow;
+    margin-top: 10px
+}
 #question {
     font-size: 60px;
-    padding: 20px
+    padding: 20px;
+}
+
+#game-over-message {
+    font-size: 60px;
 }
 
 .playerChoices{
     width: 400px;
     margin: 0 auto;
-    font-size: 50px
+    font-size: 45px;
+    margin-top: 10px;
+    background-color: rgba(45, 135, 187, 0.4);
 }
+
 .playerChoices:hover {
     background-color: rgba(45, 135, 187, 0.712);
-    color: yellow
+    color: yellow;
+}
+
+.statistics {
+    font-size: 40px;
 }
